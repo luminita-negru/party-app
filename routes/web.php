@@ -18,8 +18,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/events', [EventController::class, 'index']); // Afișează lista de evenimente pe pagina de start
-Route::resource('events', EventController::class); // Ruta de resurse va genera CRUD URI pentru evenimente
 Auth::routes();
 
 Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name('home');
+Route::group(['middleware' => 'auth'], function(){
+    Route::get('/events', [EventController::class, 'index']); // Afișează lista de evenimente pe pagina de start
+Route::resource('events', EventController::class); // Ruta de resurse va genera CRUD URI pentru evenimente
+}); 
