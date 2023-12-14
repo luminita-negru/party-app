@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Http\Controllers;
+use App\Models\Event;
 
 use Illuminate\Http\Request;
 
@@ -23,6 +24,7 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $events = Event::orderBy('date', 'asc')->limit(5)->get(); // Adjust this query as needed
+        return view('home', compact('events'));
     }
 }
