@@ -46,6 +46,21 @@
             </div>
 
             <div class="form-group">
+                {{ Form::label('SponsorId', 'Sponsor') }}
+                {{ Form::select('SponsorId', $sponsors, null, ['class' => 'form-control', 'placeholder' => 'Select Sponsor']) }}
+            </div>
+
+            <div class="form-group">
+                {{ Form::label('ArtistId', 'Artist') }}
+                {{ Form::select('ArtistId', $artists, null, ['class' => 'form-control', 'placeholder' => 'Select Artist']) }}
+            </div>
+
+            <div class="form-group">
+                {{ Form::label('AgendaId', 'Agenda') }}
+                {{ Form::select('AgendaId', $agendas, null, ['class' => 'form-control', 'placeholder' => 'Select Agenda']) }}
+            </div>
+            
+            <div class="form-group">
                 {{ Form::submit('Adaugă Eveniment', ['class' => 'btn btn-info']) }}
                 <a href="{{ route('events.index') }}" class="btn btn-default">Cancel</a>
             </div>

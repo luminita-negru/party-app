@@ -33,33 +33,33 @@ class ArtistController extends Controller
         return redirect()->route('artists.index')->with('success', 'Your artist added successfully!');
     }
 
-    public function show($id)
+    public function show($ArtistId)
     {
-        $artist = Artist::find($id);
+        $artist = Artist::find($ArtistId);
         return view('artists.show', compact('artist'));
     }
 
-    public function edit($id)
+    public function edit($ArtistId)
     {
-        $artist = Artist::find($id);
+        $artist = Artist::find($ArtistId);
         return view('artists.edit', compact('artist'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $ArtistId)
     {
         $this->validate($request, [
             'name' => 'required',
             'genre' => 'required',
         ]);
 
-        Artist::find($id)->update($request->all());
+        Artist::find($ArtistId)->update($request->all());
 
         return redirect()->route('artists.index')->with('success', 'Artist updated successfully');
     }
 
-    public function destroy($id)
+    public function destroy($ArtistId)
     {
-        Artist::find($id)->delete();
+        Artist::find($ArtistId)->delete();
         return redirect()->route('artists.index')->with('success', 'Artist removed successfully');
     }
 }

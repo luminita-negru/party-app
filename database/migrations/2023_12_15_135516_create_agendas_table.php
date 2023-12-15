@@ -15,16 +15,10 @@ return new class extends Migration
 {
     Schema::create('agendas', function (Blueprint $table) {
         $table->id('AgendaId');
-        $table->foreignId('id')->constrained('events');
-        $table->foreignId('ArtistId')->constrained('artists');
-        $table->foreignId('SponsorId')->constrained('sponsors');
-        $table->string('activity');
-        $table->dateTime('startTime');
-        $table->dateTime('finishTime');
+        $table->text('program');
         $table->timestamps();
     });
 }
-
 
     /**
      * Reverse the migrations.
@@ -36,3 +30,5 @@ return new class extends Migration
         Schema::dropIfExists('agendas');
     }
 };
+
+

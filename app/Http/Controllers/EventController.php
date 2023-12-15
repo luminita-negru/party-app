@@ -3,7 +3,10 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Models\Event; 
+use App\Models\Event;
+use App\Models\Sponsor;
+use App\Models\Artist;
+use App\Models\Agenda;
 use App\Http\Requests;
 
 class EventController extends Controller
@@ -17,7 +20,11 @@ class EventController extends Controller
 
     public function create()
     {
-        return view('events.create');
+        $sponsors = Sponsor::pluck('name', 'SponsorId');
+        $artists = Artist::pluck('name', 'ArtistId');
+        $agendas = Agenda::pluck('program', 'AgendaId');
+
+        return view('events.create', compact('sponsors', 'artists', 'agendas'));
     }
 
     public function store(Request $request)
@@ -27,10 +34,12 @@ class EventController extends Controller
             'date' => 'required',
             'location' => 'required',
             'description' => 'required',
-            'photo' => 'required', 
+            'photo' => 'required',
+            'SponsorId' => 'nullable|exists:sponsors,SponsorId',
+            'ArtistId' => 'nullable|exists:artists,ArtistId',
+            'AgendaId' => 'nullable|exists:agendas,AgendaId',
         ]);
 
-        // Crează un nou eveniment
         Event::create($request->all());
 
         return redirect()->route('events.index')->with('success', 'Your event added successfully!');
@@ -45,7 +54,11 @@ class EventController extends Controller
     public function edit($id)
     {
         $event = Event::find($id);
-        return view('events.edit', compact('event'));
+        $sponsors = Sponsor::pluck('name', 'SponsorId');
+        $artists = Artist::pluck('name', 'ArtistId');
+        $agendas = Agenda::pluck('program', 'AgendaId');
+
+        return view('events.edit', compact('event', 'sponsors', 'artists', 'agendas'));
     }
 
     public function update(Request $request, $id)
@@ -56,6 +69,9 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'photo' => 'required',
+            'SponsorId' => 'nullable|exists:sponsors,SponsorId',
+            'ArtistId' => 'nullable|exists:artists,ArtistId',
+            'AgendaId' => 'nullable|exists:agendas,AgendaId',
         ]);
 
         Event::find($id)->update($request->all());

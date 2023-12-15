@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\EventController;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ArtistController;
-
+use App\Http\Controllers\SponsorController;
 /*
 |--------------------------------------------------------------------------
 | Web Routes
@@ -26,9 +26,10 @@ Route::get('/home', [App\Http\Controllers\HomeController::class, 'index'])->name
 Route::group(['middleware' => 'auth'], function(){
     Route::get('/events', [EventController::class, 'index']); // Afișează lista de evenimente pe pagina de start
     Route::resource('events', EventController::class); // Ruta de resurse va genera CRUD URI pentru evenimente
-    Route::resource('sponsors', SponsorController::class);
     Route::get('/artists', [ArtistController::class, 'index']); // Afișează lista de evenimente pe pagina de start
     Route::resource('artists', ArtistController::class);
+    Route::get('/sponsors', [SponsorController::class, 'index']); // Afișează lista de evenimente pe pagina de start
+    Route::resource('sponsors', SponsorController::class);
     Route::resource('agendas', AgendaController::class);
 
 }); 

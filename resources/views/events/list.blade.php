@@ -25,6 +25,9 @@
                     <th>Data</th>
                     <th>Locație</th>
                     <th>Descriere</th>
+                    <th>Sponsor</th>
+                    <th>Artist</th>
+                    <th>Agenda</th>
                     <th>Acțiune</th>
                 </tr>
                 @if (count($events) > 0)
@@ -35,6 +38,9 @@
                             <td>{{ $event->date }}</td>
                             <td>{{ $event->location }}</td>
                             <td>{{ $event->description }}</td>
+                            <td>{{ $sponsors->sponsor ? $sponsors->sponsor->name : '' }}</td>
+                            <td>{{ $artists->artist ? $artists->artist->name : '' }}</td>
+                            <td>{{ $agendas->agenda ? $agendas->agenda->program : '' }}</td>
                             <td>
                                 <a class="btn btn-success" href="{{ route('events.show', $event->id) }}">Vizualizare</a>
                                 <a class="btn btn-primary" href="{{ route('events.edit', $event->id) }}">Modificare</a>
@@ -46,7 +52,7 @@
                     @endforeach
                 @else
                     <tr>
-                        <td colspan="6">Nu există evenimente!</td>
+                        <td colspan="9">Nu există evenimente!</td>
                     </tr>
                 @endif
             </table>

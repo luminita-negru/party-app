@@ -46,6 +46,21 @@
             </div>
 
             <div class="form-group">
+                {{ Form::label('SponsorId', 'Sponsor') }}
+                {{ Form::select('SponsorId', $sponsors, $event->sponsor ? $event->sponsor->id : null, ['class' => 'form-control', 'placeholder' => 'Select Sponsor']) }}
+            </div>
+
+            <div class="form-group">
+                {{ Form::label('ArtistId', 'Artist') }}
+                {{ Form::select('ArtistId', $artists, $event->artist ? $event->artist->id : null, ['class' => 'form-control', 'placeholder' => 'Select Artist']) }}
+            </div>
+
+            <div class="form-group">
+                {{ Form::label('AgendaId', 'Agenda') }}
+                {{ Form::textarea('AgendaId', $event->agenda ? $event->agenda->program : null, ['class' => 'form-control', 'rows' => 3]) }}
+            </div>
+            
+            <div class="form-group">
                 {{ Form::submit('Salvare Modificări', ['class' => 'btn btn-info']) }}
                 <a href="{{ route('events.index') }}" class="btn btn-default">Cancel</a>
             </div>

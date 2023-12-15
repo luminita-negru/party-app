@@ -10,10 +10,10 @@ class Artist extends Model
     use HasFactory;
     public $fillable = ['ArtistId', 'name', 'genre'];
 
-    // public $primaryKey = 'ArtistId';
+     public $primaryKey = 'ArtistId';
 
-    // public function agendas()
-    // {
-    //     return $this->hasMany(Agenda::class, 'ArtistId');
-    // }
+    //  public function agendas()
+    //  {
+    //      return $this->hasMany(Agenda::class, 'ArtistId');
+    //  }
 }

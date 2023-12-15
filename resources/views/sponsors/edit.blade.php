@@ -2,9 +2,9 @@
 
 @section('content')
     <div class="panel panel-default">
-        <div class="panel-heading"> Edit the Artist</div>
+        <div class="panel-heading"> Edit the Sponsor</div>
         <div class="panel-body">
-            <!-- Există înregistrări în tabelul artist -->
+            <!-- Există înregistrări în tabelul sponsor -->
             @if (count($errors) > 0)
                 <div class="alert alert-danger">
                     <strong>Eroare:</strong>
@@ -16,19 +16,19 @@
                 </div>
             @endif
 
-            <!-- Populez câmpurile formularului cu datele aferente din tabela artist -->
-            {!! Form::model($artist, ['method' => 'PATCH', 'route' => ['artists.update', $artist->ArtistId]]) !!}
+            <!-- Populez câmpurile formularului cu datele aferente din tabela sponsor -->
+            {!! Form::model($sponsor, ['method' => 'PATCH', 'route' => ['sponsors.update', $sponsor->SponsorId]]) !!}
             <div class="form-group">
                 <label for="name">Name</label>
-                <input type="text" name="name" class="form-control" value="{{ $artist->name }}">
+                <input type="text" name="name" class="form-control" value="{{ $sponsor->name }}">
             </div>
             <div class="form-group">
-                <label for="genre">Genre</label>
-                <input type="text" name="genre" class="form-control" value="{{ $artist->genre }}">
+                <label for="logo">Logo</label>
+                <input type="text" name="logo" class="form-control" value="{{ $sponsor->logo }}">
             </div>
             <div class="form-group">
                 <input type="submit" value="Save" class="btn btn-info">
-                <a href="{{ route('artists.index') }}" class="btn btndefault">Cancel</a>
+                <a href="{{ route('sponsors.index') }}" class="btn btndefault">Cancel</a>
             </div>
             {!! Form::close() !!}
         </div>
