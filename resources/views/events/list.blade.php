@@ -18,7 +18,7 @@
                 </div>
             </div>
 
-            <table class="table table-bordered table-stripped">
+            <table class="table table-bordered table-striped">
                 <tr>
                     <th width="20">No</th>
                     <th>Nume</th>
@@ -31,16 +31,17 @@
                     <th>Acțiune</th>
                 </tr>
                 @if (count($events) > 0)
-                    @foreach ($events as $key => $event)
+                    <?php $i = 0; ?>
+                    @foreach ($events as $event)
                         <tr>
                             <td>{{ ++$i }}</td>
                             <td>{{ $event->name }}</td>
                             <td>{{ $event->date }}</td>
                             <td>{{ $event->location }}</td>
                             <td>{{ $event->description }}</td>
-                            <td>{{ $sponsors->sponsor ? $sponsors->sponsor->name : '' }}</td>
-                            <td>{{ $artists->artist ? $artists->artist->name : '' }}</td>
-                            <td>{{ $agendas->agenda ? $agendas->agenda->program : '' }}</td>
+                            <td>{{ $event->sponsor->name ?? '' }}</td>
+                            <td>{{ $event->artist->name ?? '' }}</td>
+                            <td>{{ $event->agenda->program ?? '' }}</td>
                             <td>
                                 <a class="btn btn-success" href="{{ route('events.show', $event->id) }}">Vizualizare</a>
                                 <a class="btn btn-primary" href="{{ route('events.edit', $event->id) }}">Modificare</a>

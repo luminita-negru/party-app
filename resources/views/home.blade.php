@@ -1,11 +1,20 @@
 @extends('layouts.app')
 
 @section('content')
-<div class="container">
+<div class="container" style="background-color: #2E0854; color: #8A2BE2; padding: 20px;">
     <div class="row justify-content-center">
         <div class="col-md-8">
             <div class="card">
-                <div class="card-header">{{ __('Euphoria Events') }}</div>
+                <div class="card-header">
+                    <h2 style="margin: 0;">Euphoria Events</h2>
+                    <nav>
+                        <ul style="list-style: none; display: flex; margin: 0; padding: 0; justify-content: space-between;">
+                            <li><a href="/events" style="text-decoration: none; color: #8A2BE2;">Events</a></li>
+                            <li><a href="{/contact}" style="text-decoration: none; color: #8A2BE2;">Contact</a></li>
+                            <li><a href="{/cart}" style="text-decoration: none; color: #8A2BE2;">Cart</a></li>
+                        </ul>
+                    </nav>
+                </div>
 
                 <div class="card-body">
                     @if (session('status'))
@@ -16,25 +25,24 @@
 
                     <h3>Upcoming Events</h3>
 
-                    @forelse($events as $events)
+                    @forelse($events as $event)
                         <div class="event card mb-3">
-                        <img src="{{ asset($events->photo) }}" class="card-img-top" alt="Event Photo">
+                            <img src="{{ asset($event->photo) }}" class="card-img-top" alt="Event Photo">
                             <div class="card-body">
-                                <h4 class="card-title">{{ $events->name }}</h4>
-                                <p class="card-text"><strong>Date:</strong> {{ $events->date }}</p>
-                                <p class="card-text"><strong>Location:</strong> {{ $events->location }}</p>
-                                <p class="card-text"><strong>Description:</strong> {{ $events->description }}</p>
+                                <h4 class="card-title">{{ $event->name }}</h4>
+                                <p class="card-text"><strong>Date:</strong> {{ $event->date }}</p>
+                                <p class="card-text"><strong>Location:</strong> {{ $event->location }}</p>
+                                <p class="card-text"><strong>Description:</strong> {{ $event->description }}</p>
                                 <!-- Add more details as needed -->
 
                                 {{-- You can add a link to view the event details --}}
-                                <a href="{{ route('events.show', $events->id) }}" class="btn btn-primary">View Details</a>
+                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     @empty
                         <p>No upcoming events</p>
                     @endforelse
                 </div>
-                <div> <a href="{{URL::to('events') }}"> Afiseaza evenimente</a> </div> 
             </div>
         </div>
     </div>
