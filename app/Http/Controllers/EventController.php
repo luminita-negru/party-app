@@ -7,6 +7,7 @@ use App\Models\Event;
 use App\Models\Sponsor;
 use App\Models\Artist;
 use App\Models\Agenda;
+use App\Models\SponsorEvents;
 use App\Http\Requests;
 
 class EventController extends Controller
@@ -22,9 +23,8 @@ class EventController extends Controller
     {
         $sponsors = Sponsor::pluck('name', 'SponsorId');
         $artists = Artist::pluck('name', 'ArtistId');
-        $agendas = Agenda::pluck('program', 'AgendaId');
 
-        return view('events.create', compact('sponsors', 'artists', 'agendas'));
+        return view('events.create', compact('sponsors', 'artists'));
     }
 
     public function store(Request $request)
@@ -35,12 +35,42 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'photo' => 'required',
-            'SponsorId' => 'nullable|exists:sponsors,SponsorId',
-            'ArtistId' => 'nullable|exists:artists,ArtistId',
-            'AgendaId' => 'nullable|exists:agendas,AgendaId',
+            'artists' => 'required|array|min:1',
+            'sponsors' => 'required|array|min:1',
+            'artists.*' => 'required',
+            'sponsors.*' => 'required',
         ]);
 
-        Event::create($request->all());
+        $event = Event::create($request->all());
+        if (!$event) {
+            throw new \Exception('Failed to create the event.');
+        }
+        $artists = $request->input('artists');
+        $startTimes = $request->input('startTimes');
+        $finishTimes = $request->input('finishTimes');
+
+
+        // Save each artist and their time to the agendas table
+        for ($i = 0; $i < count($artists); $i++) {
+            $agenda = new Agenda([
+                'ArtistId' => $artists[$i],
+                'startTime' => $startTimes[$i],
+                'finishTime' => $finishTimes[$i],
+                'EventId' => $event->id,
+            ]);
+
+            $agenda->save();
+        }
+
+        $sponsors = $request->input('sponsors');
+        for ($i = 0; $i < count($sponsors); $i++) {
+            $sponsor = new SponsorEvents([
+                'SponsorId' => $sponsors[$i],
+                'EventId' => $event->id,
+            ]);
+
+            $sponsor->save();
+        }
 
         return redirect()->route('events.index')->with('success', 'Your event added successfully!');
     }
@@ -53,15 +83,14 @@ class EventController extends Controller
 
     public function edit($id)
     {
-        $event = Event::find($id);
+        $event = Event::with(['sponsors', 'agendas'])->find($id);
         $sponsors = Sponsor::pluck('name', 'SponsorId');
         $artists = Artist::pluck('name', 'ArtistId');
-        $agendas = Agenda::pluck('program', 'AgendaId');
-
-        return view('events.edit', compact('event', 'sponsors', 'artists', 'agendas'));
+        
+        return view('events.edit', compact('event', 'sponsors', 'artists'));
     }
 
-    public function update(Request $request, $id)
+    public function update(Request $request, $id)  
     {
         $this->validate($request, [
             'name' => 'required',
@@ -69,12 +98,46 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'photo' => 'required',
-            'SponsorId' => 'nullable|exists:sponsors,SponsorId',
-            'ArtistId' => 'nullable|exists:artists,ArtistId',
-            'AgendaId' => 'nullable|exists:agendas,AgendaId',
+            'artists' => 'required|array|min:1',
+            'sponsors' => 'required|array|min:1',
+            'artists.*' => 'required',
+            'sponsors.*' => 'required',
         ]);
 
-        Event::find($id)->update($request->all());
+        $event = Event::find($id);
+        $filename = time().'.'.request()->photo->getClientOriginalExtension();
+        request()->photo->move(public_path('images'), $filename);
+        request()->photo = $filename;
+        $event->update($request->all());
+        $event->hasMany(Agenda::class, 'EventId')->delete();
+        $event->hasMany(SponsorEvents::class, 'EventId')->delete();
+
+        $artists = $request->input('artists');
+        $startTimes = $request->input('startTimes');
+        $finishTimes = $request->input('finishTimes');
+
+
+        // Save each artist and their time to the agendas table
+        for ($i = 0; $i < count($artists); $i++) {
+            $agenda = new Agenda([
+                'ArtistId' => $artists[$i],
+                'startTime' => $startTimes[$i],
+                'finishTime' => $finishTimes[$i],
+                'EventId' => $event->id,
+            ]);
+
+            $agenda->save();
+        }
+
+        $sponsors = $request->input('sponsors');
+        for ($i = 0; $i < count($sponsors); $i++) {
+            $sponsor = new SponsorEvents([
+                'SponsorId' => $sponsors[$i],
+                'EventId' => $event->id,
+            ]);
+
+            $sponsor->save();
+        }
 
         return redirect()->route('events.index')->with('success', 'Event updated successfully');
     }

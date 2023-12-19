@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Agenda extends Model
 {
     use HasFactory;
+    public $fillable = ['AgendaId', 'EventId', 'program', 'ArtistId', 'startTime', 'finishTime'];
     protected $primaryKey = 'AgendaId';
 
     public function event()
@@ -20,8 +21,4 @@ class Agenda extends Model
         return $this->belongsTo(Artist::class, 'ArtistId');
     }
 
-    public function sponsor()
-    {
-        return $this->belongsTo(Sponsor::class, 'SponsorId');
-    }
 }

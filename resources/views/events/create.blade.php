@@ -18,7 +18,7 @@
                 </div>
             @endif
 
-            {{ Form::open(['route' => 'events.store', 'method' => 'POST']) }}
+            {{ Form::open(['route' => 'events.store', 'method' => 'POST', 'enctype' => 'multipart/form-data', 'id' => 'eventForm']) }}
 
             <div class="form-group">
                 {{ Form::label('name', 'Nume') }}
@@ -45,21 +45,42 @@
                 {{ Form::file('photo', ['class' => 'form-control']) }}
             </div>
 
-            <div class="form-group">
-                {{ Form::label('SponsorId', 'Sponsor') }}
-                {{ Form::select('SponsorId', $sponsors, null, ['class' => 'form-control', 'placeholder' => 'Select Sponsor']) }}
+            <div id="artistsContainer">
+                <div class="artist-row">
+                    <div class="form-group">
+                        {{ Form::label('artists[]', 'Artist') }}
+                        {{ Form::select('artists[]', $artists, null, ['class' => 'form-control', 'placeholder' => 'Select Artist']) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ Form::label('startTimes[]', 'Ora de început') }}
+                        {{ Form::time('startTimes[]', null, ['class' => 'form-control']) }}
+                    </div>
+
+                    <div class="form-group">
+                        {{ Form::label('finishTimes[]', 'Ora de sfârșit') }}
+                        {{ Form::time('finishTimes[]', null, ['class' => 'form-control']) }}
+                    </div>
+
+                    <button type="button" class="btn btn-danger remove-artist">Remove Artist</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                {{ Form::label('ArtistId', 'Artist') }}
-                {{ Form::select('ArtistId', $artists, null, ['class' => 'form-control', 'placeholder' => 'Select Artist']) }}
+            <button type="button" class="btn btn-success" id="addArtist">Add Artist</button>
+
+            <div id="sponsorsContainer">
+                <div class="sponsor-row">
+                    <div class="form-group">
+                        {{ Form::label('sponsors[]', 'Sponsor') }}
+                        {{ Form::select('sponsors[]', $sponsors, null, ['class' => 'form-control', 'placeholder' => 'Select Sponsor']) }}
+                    </div>
+
+                    <button type="button" class="btn btn-danger remove-sponsor">Remove Sponsor</button>
+                </div>
             </div>
 
-            <div class="form-group">
-                {{ Form::label('AgendaId', 'Agenda') }}
-                {{ Form::select('AgendaId', $agendas, null, ['class' => 'form-control', 'placeholder' => 'Select Agenda']) }}
-            </div>
-            
+            <button type="button" class="btn btn-success" id="addSponsor">Add Sponsor</button>
+
             <div class="form-group">
                 {{ Form::submit('Adaugă Eveniment', ['class' => 'btn btn-info']) }}
                 <a href="{{ route('events.index') }}" class="btn btn-default">Cancel</a>
@@ -69,4 +90,67 @@
 
         </div>
     </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            const addArtistBtn = document.getElementById('addArtist');
+            const artistsContainer = document.getElementById('artistsContainer');
+            const addSponsorBtn = document.getElementById('addSponsor');
+            const sponsorsContainer = document.getElementById('sponsorsContainer');
+            const eventForm = document.getElementById('eventForm');
+
+            document.querySelectorAll('.remove-sponsor').forEach(function (removeButton) {
+                removeButton.addEventListener('click', function () {
+                    if(sponsorsContainer.children.length == 1){
+                        return;
+                    }
+                    sponsorsContainer.removeChild(removeButton.parentElement);
+                });
+            });
+
+            document.querySelectorAll('.remove-artist').forEach(function (removeButton) {
+                removeButton.addEventListener('click', function () {
+                    if(artistsContainer.children.length == 1){
+                        return;
+                    }
+                    artistsContainer.removeChild(removeButton.parentElement);
+                });
+            });
+            
+
+            addArtistBtn.addEventListener('click', function () {
+                const artistRow = document.querySelector('.artist-row').cloneNode(true);
+                artistRow.querySelectorAll('input, select').forEach(function (input) {
+                    input.value = '';
+                });
+
+                const removeButton = artistRow.querySelector('.remove-artist');
+                removeButton.addEventListener('click', function () {
+                    if(artistsContainer.children.length == 1){
+                        return;
+                    }
+                    artistsContainer.removeChild(artistRow);
+                });
+
+                artistsContainer.appendChild(artistRow);
+            });
+
+            addSponsorBtn.addEventListener('click', function () {
+                const sponsorRow = document.querySelector('.sponsor-row').cloneNode(true);
+                sponsorRow.querySelectorAll('select').forEach(function (select) {
+                    select.value = '';
+                });
+
+                const removeButton = sponsorRow.querySelector('.remove-sponsor');
+                removeButton.addEventListener('click', function () {
+                    if(sponsorsContainer.children.length == 1){
+                        return;
+                    }
+                    sponsorsContainer.removeChild(sponsorRow);
+                });
+
+                sponsorsContainer.appendChild(sponsorRow);
+            });
+        });
+    </script>
 @endsection
