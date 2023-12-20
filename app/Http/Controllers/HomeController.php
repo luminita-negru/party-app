@@ -24,7 +24,10 @@ class HomeController extends Controller
      */
     public function index()
     {
-        $events = Event::orderBy('date', 'asc')->limit(5)->get(); // Adjust this query as needed
+        // $events = Event::orderBy('date', 'asc')->limit(5)->get(); // Adjust this query as needed
+        // return view('home', compact('events'));
+
+        $events = Event::all(); // You can adjust this query as needed
         return view('home', compact('events'));
     }
 }

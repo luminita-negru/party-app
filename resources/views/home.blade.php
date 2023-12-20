@@ -27,16 +27,25 @@
 
                     @forelse($events as $event)
                         <div class="event card mb-3">
-                            <img src="{{ asset($event->photo) }}" class="card-img-top" alt="Event Photo">
+                            <img src="{{ asset('images/' . $event->photo) }}" class="card-img-top" alt="Event Photo">
                             <div class="card-body">
                                 <h4 class="card-title">{{ $event->name }}</h4>
                                 <p class="card-text"><strong>Date:</strong> {{ $event->date }}</p>
                                 <p class="card-text"><strong>Location:</strong> {{ $event->location }}</p>
                                 <p class="card-text"><strong>Description:</strong> {{ $event->description }}</p>
+                                <p class="card-text"><strong>Price:</strong> {{ $event->price }}</p>
                                 <!-- Add more details as needed -->
 
-                                {{-- You can add a link to view the event details --}}
-                                <a href="{{ route('events.show', $event->id) }}" class="btn btn-primary">View Details</a>
+                                {{-- Add to Cart Form --}}
+                                <form action="{{ route('carts.add', $event->id) }}" method="POST" style="display: inline;">
+                                    @csrf
+                                    <label for="nr_tickets">Tickets:</label>
+                                    <input type="number" name="nr_tickets" value="1" min="1">
+                                    <button type="submit" class="btn btn-success">Add to Cart</button>
+                                </form>
+
+                                {{-- View Details Link --}}
+                                <a href="{{ route('event.details', $event->id) }}" class="btn btn-primary">View Details</a>
                             </div>
                         </div>
                     @empty

@@ -17,11 +17,15 @@
         <nav class="navbar navbar-default">
             <div class="container-fluid">
                 <div class="navbar-header">
-                    <a class="navbar-brand" href="#">Exemplu aplicație Laravel CRUD</a>
+                    <a class="navbar-brand" href="#">Euphoria Events - Dashboard</a>
                 </div>
                 <ul class="nav navbar-nav">
-                    <li><a href="{{ route('events.index') }}">Lista Evenimentelor</a></li>
-                    <li><a href="{{ route('events.create') }}">Adăugare Eveniment Nou</a></li>
+                    <li><a href="{{ route('events.index') }}">Events</a></li>
+                    <li><a href="{{ route('events.create') }}">Add a new Event</a></li>
+                    <li><a href="{{ route('artists.index') }}">Artists</a></li>
+                    <li><a href="{{ route('artists.create') }}">Add a new Artist</a></li>
+                    <li><a href="{{ route('sponsors.index') }}">Sponsors</a></li>
+                    <li><a href="{{ route('events.create') }}">Add a new Sponsor</a></li>
                 </ul>
             </div>
         </nav>

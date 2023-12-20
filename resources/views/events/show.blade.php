@@ -26,6 +26,9 @@
             <div class="form-group">
                 <strong style="color: #560f88;">Locație: </strong> {{ $event->location }}
             </div>
+            <div class="form-group">
+                <strong style="color: #560f88;">Price: </strong> {{ $event->price }}
+            </div>
 
             <div class="form-group">
                 <strong style="color: #560f88;">Fotografie: </strong>

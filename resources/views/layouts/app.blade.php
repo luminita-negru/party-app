@@ -7,6 +7,7 @@
     <title>Euphoria Event</title>
 
     <!-- Custom Styles -->
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
     <link rel="stylesheet" href="{{ asset('css/app.css') }}">
     <link rel="stylesheet" href="{{ asset('css/custom.css') }}">
 
@@ -68,6 +69,7 @@
                     </ul>
                 </div>
             </div>
+            
         </nav>
 
         <!-- Main Content -->

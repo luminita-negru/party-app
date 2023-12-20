@@ -45,6 +45,11 @@
                 {{ Form::file('photo', ['class' => 'form-control']) }}
             </div>
 
+            <div class="form-group">
+                {{ Form::label('price', 'Price') }}
+                {{ Form::text('price', $event->price, ['class' => 'form-control']) }}
+            </div>
+
             <div id="artistsContainer">
                 @foreach($event->agendas as $agenda)
                     <div class="artist-row">

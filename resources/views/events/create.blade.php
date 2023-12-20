@@ -45,6 +45,11 @@
                 {{ Form::file('photo', ['class' => 'form-control']) }}
             </div>
 
+            <div class="form-group">
+                {{ Form::label('price', 'Price') }}
+                {{ Form::text('price', old('price'), ['class' => 'form-control']) }}
+            </div>
+
             <div id="artistsContainer">
                 <div class="artist-row">
                     <div class="form-group">

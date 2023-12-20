@@ -25,6 +25,7 @@
                     <th>Data</th>
                     <th>Locație</th>
                     <th>Descriere</th>
+                    <th>Price</th>
                     <th>Acțiune</th>
                 </tr>
                 @if (count($events) > 0)
@@ -36,6 +37,7 @@
                             <td>{{ $event->date }}</td>
                             <td>{{ $event->location }}</td>
                             <td>{{ $event->description }}</td>
+                            <td>{{ $event->price }}</td>
                             <td>
                                 <a class="btn btn-success" href="{{ route('events.show', $event->id) }}">Vizualizare</a>
                                 <a class="btn btn-primary" href="{{ route('events.edit', $event->id) }}">Modificare</a>

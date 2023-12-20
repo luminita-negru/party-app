@@ -35,6 +35,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'photo' => 'required',
+            'price' => 'required',
             'artists' => 'required|array|min:1',
             'sponsors' => 'required|array|min:1',
             'artists.*' => 'required',
@@ -98,6 +99,7 @@ class EventController extends Controller
             'location' => 'required',
             'description' => 'required',
             'photo' => 'required',
+            'price' => 'required',
             'artists' => 'required|array|min:1',
             'sponsors' => 'required|array|min:1',
             'artists.*' => 'required',
@@ -109,6 +111,10 @@ class EventController extends Controller
         request()->photo->move(public_path('images'), $filename);
         request()->photo = $filename;
         $event->update($request->all());
+        $event->update([
+            'photo' => $filename,
+        ]);
+        
         $event->hasMany(Agenda::class, 'EventId')->delete();
         $event->hasMany(SponsorEvents::class, 'EventId')->delete();
 

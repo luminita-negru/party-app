@@ -45,3 +45,29 @@
 .back-link {
     text-align: center;
 }
+
+/* public/css/styles.css */
+
+body {
+    background-color: #2E0854;
+    color: #8A2BE2;
+}
+
+.card-header {
+    background-color: #560f88;
+    color: #fff;
+}
+
+.btn-light {
+    background-color: #fff;
+    color: #560f88;
+}
+
+.panel-heading {
+    background-color: #560f88;
+    color: #fff;
+}
+
+.text-purple {
+    color: #560f88;
+}
